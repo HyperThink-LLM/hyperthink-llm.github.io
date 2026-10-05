@@ -1,17 +1,367 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>HyperThink</title>
-<style>
-  html, body { height: 100%; margin: 0; }
-  body { display: flex; align-items: center; justify-content: center; background: #ffffff; color: #222222;
-         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; }
-  h1 { font-size: 2.5rem; font-weight: 600; letter-spacing: 0.01em; }
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>HyperThink: Text-to-Parameter Hypernetworks for Efficient Reasoning</title>
+  <meta name="description" content="HyperThink amortizes an LLM's long thinking trace into one query-conditioned parameter update predicted by a hypernetwork, so the adapted model answers with a short step-by-step solution at near non-thinking latency.">
+  <meta name="keywords" content="HyperThink, hypernetworks, efficient reasoning, large language models, test-time adaptation, System 1 reasoning, vector quantization, COLM 2026">
+  <link rel="canonical" href="https://hyperthink-llm.github.io/">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+
+  <meta property="og:title" content="HyperThink: Text-to-Parameter Hypernetworks for Efficient Reasoning">
+  <meta property="og:description" content="HyperThink amortizes an LLM's long thinking trace into one query-conditioned parameter update predicted by a hypernetwork, so the adapted model answers with a short step-by-step solution at near non-thinking latency.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://hyperthink-llm.github.io/">
+  <meta property="og:image" content="https://hyperthink-llm.github.io/static/images/preview.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="HyperThink title above the HyperThink panel of the paper's concept figure.">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="HyperThink: Text-to-Parameter Hypernetworks for Efficient Reasoning">
+  <meta name="twitter:description" content="HyperThink amortizes an LLM's long thinking trace into one query-conditioned parameter update predicted by a hypernetwork, so the adapted model answers with a short step-by-step solution at near non-thinking latency.">
+  <meta name="twitter:image" content="https://hyperthink-llm.github.io/static/images/preview.png">
+  <meta name="twitter:image:alt" content="HyperThink title above the HyperThink panel of the paper's concept figure.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="static/css/bulma.min.css">
+  <link rel="stylesheet" href="static/css/index.css">
 </head>
 <body>
-<h1>Coming soon!</h1>
+
+<header class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">HyperThink: <span class="nowrap">Text-to-Parameter</span> Hypernetworks <br>for Efficient Reasoning</h1>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><a href="https://gitgyun.github.io/" target="_blank" rel="noopener">Donggyun Kim</a><sup>1</sup><span class="eq-star" aria-label="equal contribution">*</span>,</span>
+            <span class="author-block"><a href="https://jacklu-me.com" target="_blank" rel="noopener">Jack Lu</a><sup>2</sup><span class="eq-star" aria-label="equal contribution">*</span>,</span>
+            <span class="author-block"><a href="https://cwhoaon.github.io" target="_blank" rel="noopener">Chanwoo Kim</a><sup>1</sup>,</span>
+            <span class="author-block"><a href="https://mengyeren.com/" target="_blank" rel="noopener">Mengye Ren</a><sup>2</sup>,</span>
+            <span class="author-block"><a href="https://maga33.github.io/" target="_blank" rel="noopener">Seunghoon Hong</a><sup>1</sup></span>
+          </div>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><sup>1</sup>KAIST</span>
+            <span class="author-block affil-gap"><sup>2</sup>New York University</span>
+          </div>
+          <div class="is-size-5 publication-venue-line">COLM 2026<span class="eql-cntrb"><span class="eq-star">*</span>Equal contribution</span></div>
+
+          <nav class="publication-links" aria-label="Paper links">
+            <a href="https://arxiv.org/abs/2610.03039" target="_blank" rel="noopener" class="button is-normal is-rounded is-dark">
+              <span class="icon"><svg class="svg-icon" viewBox="0 0 448 512" aria-hidden="true" focusable="false"><path fill="currentColor" transform="matrix(1.5499998,0,0,-1.5499998,-123.19936,553.59966)" d="m 119.65,351.996 c -5.84961,0.13477 -11.1943,-3.29883 -13.502,-8.67578 -2.19629,-5.27051 -0.61914,-8.9668 4.19727,-15.8652 7.05469,-10.3799 78.8242,-96.5625 78.8242,-96.5625 l -15.8828,-14.8633 c -13.3809,-13.3779 -13.9561,-31.333 -1.50977,-43.7754 l 18.4922,-17.6133 -51.5977,-63.377 c -4.00586,-4.26758 -6.48535,-11.7559 -4.24805,-17.1309 2.27832,-5.53613 7.69727,-9.12891 13.6836,-9.07031 3.83398,0.0957 7.43262,1.87402 9.83789,4.86133 l 61.3691,57.0566 94.5762,-90.0703 c 3.19434,-3.08398 7.44336,-4.83984 11.8828,-4.91016 1.60449,0.0039 3.19824,0.245117 4.73242,0.714844 5.7793,1.80566 10.249,6.41797 11.8711,12.252 1.2998,5.47363 -0.27637,11.2334 -4.18164,15.2832 l -83.0859,100.011996 14.8789,13.834 c 11.0957,10.0029 11.1543,27.3906 0.12695,37.4688 l -16.2949,15.6309 56.2559,66.4434 0.0742,0.0859 0.0664,0.0899 c 5.02734,6.53125 7.43164,11.5615 4.83984,17.9395 -3.13379,5.96875 -8.69727,10.29 -15.2559,11.8516 -0.67676,0.0908 -1.35938,0.13574 -2.04297,0.13671 l -0.004,-0.0117 c -4.42871,-0.27051 -8.61035,-2.13086 -11.7754,-5.24023 l -0.13086,-0.10743 -0.12304,-0.11132 -65.207,-59.127 -89.8965,86.2402 c 0,0 -5.33398,6.47754 -10.9707,6.61133 z m 178.104,-33.041 c 0.47852,-0.002 0.95703,-0.0332 1.43164,-0.0957 4.84277,-1.33301 8.95605,-4.54004 11.4316,-8.91016 1.44922,-3.5625 1.00293,-6.45703 -4.19727,-13.2148 l -56.0586,-66.2188 -26.375,25.3027 64.9551,58.9062 c 2.33887,2.41504 5.46484,3.91113 8.8125,4.2168 v 0.0137 z M 192.436,227.402 334.446,57.244 c 2.78711,-3.48926 4.5293,-6.97949 3.3418,-10.9121 -1.16113,-4.30273 -4.43457,-7.71777 -8.68555,-9.05664 -1.08105,-0.333984 -2.20508,-0.503906 -3.33594,-0.505859 -3.20801,0.07617 -6.26953,1.35645 -8.57617,3.58789 l -142.033,135.284999 c -11.1719,11.1719 -9.48242,26.0195 1.39258,36.8945 z"/></svg></span><span>arXiv</span></a>
+            <a href="https://arxiv.org/pdf/2610.03039" target="_blank" rel="noopener" class="button is-normal is-rounded is-dark">
+              <span class="icon"><svg class="svg-icon" viewBox="0 0 384 512" aria-hidden="true" focusable="false"><path fill="currentColor" d="M369.9 97.9L286 14C277 5 264.8-.1 252.1-.1H48C21.5 0 0 21.5 0 48v416c0 26.5 21.5 48 48 48h288c26.5 0 48-21.5 48-48V131.9c0-12.7-5.1-25-14.1-34zM332.1 128H256V51.9l76.1 76.1zM48 464V48h160v104c0 13.3 10.7 24 24 24h104v288H48zm250.2-143.7c-12.2-12-47-8.7-64.4-6.5-17.2-10.5-28.7-25-36.8-46.3 3.9-16.1 10.1-40.6 5.4-56-4.2-26.2-37.8-23.6-42.6-5.9-4.4 16.1-.4 38.5 7 67.1-10 23.9-24.9 56-35.4 74.4-20 10.3-47 26.2-51 46.2-3.3 15.8 26 55.2 76.1-31.2 22.4-7.4 46.8-16.5 68.4-20.1 18.9 10.2 41 17 55.8 17 25.5 0 28-28.2 17.5-38.7zm-198.1 77.8c5.1-13.7 24.5-29.5 30.4-35-19 30.3-30.4 35.7-30.4 35zm81.6-190.6c7.4 0 6.7 32.1 1.8 40.8-4.4-13.9-4.3-40.8-1.8-40.8zm-24.4 136.6c9.7-16.9 18-37 24.7-54.7 8.3 15.1 18.9 27.2 30.1 35.5-20.8 4.3-38.9 13.1-54.8 19.2zm131.6-5s-5 6-37.3-7.8c35.1-2.6 40.9 5.4 37.3 7.8z"/></svg></span><span>PDF</span></a>
+            <a href="static/hyperthink-colm2026-poster.pdf" target="_blank" rel="noopener" class="button is-normal is-rounded is-dark">
+              <span class="icon"><svg class="svg-icon" viewBox="0 0 512 512" aria-hidden="true" focusable="false"><path fill="currentColor" d="M464 448H48c-26.51 0-48-21.49-48-48V112c0-26.51 21.49-48 48-48h416c26.51 0 48 21.49 48 48v288c0 26.51-21.49 48-48 48zM112 120c-30.928 0-56 25.072-56 56s25.072 56 56 56 56-25.072 56-56-25.072-56-56-56zM64 384h384V272l-87.515-87.515c-4.686-4.686-12.284-4.686-16.971 0L208 320l-55.515-55.515c-4.686-4.686-12.284-4.686-16.971 0L64 336v48z"/></svg></span><span>Poster</span></a>
+            <span class="button is-normal is-rounded is-dark is-static-soon" aria-disabled="true" title="Code coming soon">
+              <span class="icon"><svg class="svg-icon" viewBox="0 0 496 512" aria-hidden="true" focusable="false"><path fill="currentColor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg></span><span>Code</span><span class="soon">soon</span></span>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<!-- Teaser -->
+<section class="hero teaser" id="teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <p class="hook">What if LLMs could think in their weights instead of their tokens?</p>
+      <figure class="figure">
+        <a href="static/images/concept.webp" target="_blank" title="Open the figure at full size"><img src="static/images/concept.webp" width="1800" height="1325" class="teaser-img"
+             alt="Three pipelines. Non-Thinking: the query goes through the LLM straight to a response. Thinking: the LLM writes a thinking trace before the response. HyperThink: a hypernetwork reads the query once and predicts a parameter update that is injected into the LLM, and the adapted LLM writes the response directly."></a>
+        <p class="scroll-hint">Tap to enlarge</p>
+      </figure>
+      <p class="tldr">HyperThink reads the question once and predicts a <b><span class="nowrap"><span class="nowrap">query-conditioned</span></span> parameter update</b>; the adapted LLM then writes a short <span class="nowrap">step-by-step</span> answer with no thinking trace.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Abstract -->
+<section class="section hero is-light" id="abstract">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content abstract-text">
+          <p><span class="nowrap">Long-form</span> thinking traces can substantially improve the <span class="nowrap">multi-step</span> reasoning performance of large language models (LLMs), but they introduce high <span class="nowrap">inference-time</span> overhead, with latency dominated by sequential decoding. We propose <b>HyperThink</b>, a <span class="nowrap">text-to-parameter</span> approach that amortizes this reasoning computation into a <b>single <span class="nowrap">query-conditioned</span> parameter update</b>: a lightweight hypernetwork reads the question and predicts updates to a small subset of the base LLM's parameters, while a <span class="nowrap">vector-quantized</span> decoder constrains them to a finite set of reusable patterns to improve robustness and transfer. Trained <span class="nowrap">end-to-end</span> on outputs from the base model itself, HyperThink eliminates long thinking traces at test time: after one hypernetwork forward pass, the adapted model generates a concise <span class="nowrap">step-by-step</span> solution and final answer without an intermediate trace, using far fewer tokens while retaining strong reasoning performance. Empirically, HyperThink improves the <span class="nowrap">low-latency</span> region of the <span class="nowrap">accuracy-latency</span> <span class="nowrap">trade-off</span> on mathematical and general reasoning tasks, with its strongest gains in the <span class="nowrap">near-non-thinking</span> regime.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Method -->
+<section class="hero" id="method">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <h2 class="title is-3">One Hypernetwork Pass Predicts a Compact Bias Update</h2>
+      <p>A thinking model spends most of its latency writing a long trace before it answers. HyperThink moves that computation into the weights: a <a href="https://arxiv.org/abs/1609.09106" target="_blank" rel="noopener">hypernetwork</a> reads the question once and predicts a bias update Δθ for the frozen LLM, which then answers in a few short steps with no trace.</p>
+      <div class="content">
+        <ul>
+          <li><b>Text encoder.</b> A frozen pretrained transformer embeds the question.</li>
+          <li><b>Bias encoder.</b> A small <a href="https://arxiv.org/abs/2403.03206" target="_blank" rel="noopener"><span class="nowrap">MM-DiT</span></a> attends jointly over the question and one learnable token per adapted layer.</li>
+          <li><b>VQ decoder.</b> Each layer's token snaps to the nearest entry in its own learned <a href="https://arxiv.org/abs/1711.00937" target="_blank" rel="noopener">codebook</a> and is decoded into that layer's bias update, so updates reuse a finite set of patterns.</li>
+        </ul>
+      </div>
+      <p>HyperThink is trained to match the LLM's answers after thinking; for <span class="nowrap">Qwen3-0.6B</span>, Δθ is just 0.015% of its weights.</p>
+      <figure class="figure">
+        <div class="scroll-x"><a href="static/images/architecture.webp" target="_blank" title="Open the figure at full size"><img class="arch-img" src="static/images/architecture.webp" width="1800" height="538" loading="lazy"
+             alt="HyperThink architecture: a frozen text encoder embeds the query, a bias encoder jointly encodes the text tokens with learnable bias tokens, and a VQ decoder maps each token to a codebook entry and decodes it into the bias update applied to the frozen LLM."></a></div>
+        <p class="scroll-hint">Swipe sideways to see the whole figure</p>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- Latency -->
+<section class="hero" id="latency">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <h2 class="title is-3">Beats Thinking at Matched Latency</h2>
+      <p>With <a href="https://arxiv.org/abs/2512.13961" target="_blank" rel="noopener"><span class="nowrap">Olmo-3-7B-Think</span></a>, HyperThink reaches Pass@5 87.6 on <a href="https://arxiv.org/abs/1811.00937" target="_blank" rel="noopener">CommonsenseQA</a> and 89.5 on <a href="https://arxiv.org/abs/2210.09261" target="_blank" rel="noopener"><span class="nowrap">BIG-Bench</span> Hard</a> in 3.7 and 6.3&nbsp;sec, close to full Thinking Mode's 88.0 and 90.5 at 41.4 and 80.6&nbsp;sec. At similar latency, Thinking Mode reaches 80.1 (3.5&nbsp;sec) and 71.2 (7.8&nbsp;sec). HyperThink is also faster than Native <span class="nowrap">Non-Thinking</span> (5.7 and 9.7&nbsp;sec), which scores 87.1 on both. The hypernetwork adds a single forward pass, so latency is set mostly by how many tokens the model writes. With <span class="nowrap">Qwen3-0.6B</span> on <span class="nowrap">out-of-domain</span> <a href="https://huggingface.co/datasets/HuggingFaceH4/MATH-500" target="_blank" rel="noopener"><span class="nowrap">MATH-500</span></a>, HyperThink reaches 73.4 at 15.6&nbsp;sec, above every Thinking Mode budget at similar latency (61.5 to 64.8 at 15 to 17&nbsp;sec); full Thinking Mode reaches 80.4 at 52.3&nbsp;sec. Each panel plots Pass@5 against <span class="nowrap">end-to-end</span> latency on one NVIDIA H200 GPU, with Thinking Mode swept over token budgets.</p>
+      <div class="legend" aria-label="Legend">
+        <span><svg class="mk" viewBox="0 0 30 16" aria-hidden="true"><line x1="0" y1="8" x2="30" y2="8" stroke="#B79A5B" stroke-width="2.5"/><circle cx="15" cy="8" r="5.5" fill="#B79A5B"/></svg>Thinking Mode</span>
+        <span><svg class="mk" viewBox="0 0 16 16" aria-hidden="true"><rect x="2.5" y="2.5" width="11" height="11" fill="#967E76"/></svg>Native <span class="nowrap">Non-Thinking</span></span>
+        <span><svg class="mk" viewBox="0 0 16 16" aria-hidden="true"><polygon points="8,1.5 15,14 1,14" fill="#8FA3B8"/></svg><span class="nowrap">System 2</span> Distillation</span>
+        <span><svg class="mk" viewBox="0 0 16 16" aria-hidden="true"><polygon points="8,1 15,8 8,15 1,8" fill="#FC5186"/></svg>TokenSkip</span>
+        <span><svg class="mk" viewBox="0 0 24 24" aria-hidden="true"><polygon points="12,1.5 14.9,8.6 22.5,9.2 16.7,14.2 18.5,21.6 12,17.6 5.5,21.6 7.3,14.2 1.5,9.2 9.1,8.6" fill="#4F86A8"/></svg><b>HyperThink (Ours)</b></span>
+      </div>
+      <div class="figure-grid three">
+        <a href="static/images/latency-1.svg" target="_blank" title="Open the figure at full size"><img src="static/images/latency-1.svg" width="586" height="518" loading="lazy"
+             alt="Olmo-3-7B-Think on CommonsenseQA: HyperThink reaches 87.6 Pass@5 at 3.7 seconds; full Thinking Mode reaches 88.0 at 41.4 seconds."></a>
+        <a href="static/images/latency-2.svg" target="_blank" title="Open the figure at full size"><img src="static/images/latency-2.svg" width="586" height="518" loading="lazy"
+             alt="Olmo-3-7B-Think on BIG-Bench Hard: HyperThink reaches 89.5 Pass@5 at 6.3 seconds; full Thinking Mode reaches 90.5 at 80.6 seconds."></a>
+        <a href="static/images/latency-0.svg" target="_blank" title="Open the figure at full size"><img src="static/images/latency-0.svg" width="586" height="518" loading="lazy"
+             alt="Qwen3-0.6B on MATH-500: HyperThink reaches 73.4 Pass@5 at 15.6 seconds, above every Thinking Mode point at similar latency; full Thinking Mode reaches 80.4 at 52.3 seconds."></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Accuracy -->
+<section class="hero" id="accuracy">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <h2 class="title is-3">Beats <span class="nowrap">Low-Budget</span> Baselines, Even Out of Domain</h2>
+      <p>The baselines also skip or shorten the trace: Native <span class="nowrap">Non-Thinking</span>, the model's built-in mode that answers without a trace; <span class="nowrap">Budget-Controlled</span> Thinking, which cuts Thinking Mode off at a token budget comparable to HyperThink's and forces an answer; <a href="https://arxiv.org/abs/2407.06023" target="_blank" rel="noopener">System 2 Distillation</a>, which fine-tunes the whole LLM on the same data and objective as HyperThink; and <a href="https://arxiv.org/abs/2502.12067" target="_blank" rel="noopener">TokenSkip</a>, which learns to compress the trace. Shown: <a href="https://huggingface.co/blog/smollm3" target="_blank" rel="noopener"><span class="nowrap">SmolLM3-3B</span></a> on <a href="https://arxiv.org/abs/2110.14168" target="_blank" rel="noopener">GSM8K</a> (trained on <a href="https://pretty-radio-b75.notion.site/DeepScaleR-Surpassing-O1-Preview-with-a-1-5B-Model-by-Scaling-RL-19681902c1468005bed8ca303013a4e2" target="_blank" rel="noopener">DeepScaleR</a>) and <a href="https://arxiv.org/abs/2505.09388" target="_blank" rel="noopener"><span class="nowrap">Qwen3-0.6B</span></a> on <span class="nowrap">out-of-domain</span> <span class="nowrap">MATH-500</span> (trained on GSM8K). Across all 12 model and benchmark pairs in the paper, HyperThink beats <span class="nowrap">Budget-Controlled</span> Thinking on Pass@5.</p>
+      <p>In both settings shown, HyperThink is the closest to Thinking Mode, at 2.5× to 3.9× fewer FLOPs.</p>
+      <div class="figure-grid two">
+        <a href="static/images/accuracy-1.svg" target="_blank" title="Open the figure at full size"><picture><source media="(max-width: 1023px)" srcset="static/images/accuracy-1-narrow.svg"><img src="static/images/accuracy-1.svg" width="896" height="518" loading="lazy"
+             alt="SmolLM3-3B on GSM8K, average accuracy: HyperThink 84.8, Native Non-Thinking 74.8, Budget-Controlled Thinking 62.2, System 2 Distillation 74.7, TokenSkip 81.1; full Thinking Mode 92.3."></picture></a>
+        <a href="static/images/accuracy-0.svg" target="_blank" title="Open the figure at full size"><picture><source media="(max-width: 1023px)" srcset="static/images/accuracy-0-narrow.svg"><img src="static/images/accuracy-0.svg" width="896" height="518" loading="lazy"
+             alt="Qwen3-0.6B on MATH-500, average accuracy: HyperThink 48.8, Native Non-Thinking 46.8, Budget-Controlled Thinking 43.8, System 2 Distillation 31.4, TokenSkip 37.1; full Thinking Mode 52.6."></picture></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- Ablations -->
+<section class="hero" id="ablations">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <h2 class="title is-3">Bias Updates and VQ Both Improve <span class="nowrap">MATH-500</span> Scores</h2>
+      <p>Left (Pass@5): from System 2 Distillation (full <span class="nowrap">fine-tuning</span>) to biases shared across questions, then <span class="nowrap">query-specific</span> biases without VQ, then the full HyperThink. Right (accuracy): the same hypernetwork predicting <a href="https://arxiv.org/abs/2104.08691" target="_blank" rel="noopener">Prompt Tuning</a> tokens, <a href="https://arxiv.org/abs/2106.09685" target="_blank" rel="noopener">LoRA</a> weights, or biases. All runs use <span class="nowrap">Qwen3-0.6B</span> trained on GSM8K and tested on <span class="nowrap">out-of-domain</span> <span class="nowrap">MATH-500</span>.</p>
+      <p>On MATH-500, biases beat LoRA and Prompt Tuning, and VQ adds 6.5 Pass@5.</p>
+      <div class="figure-grid two">
+        <a href="static/images/ablation-0.svg" target="_blank" title="Open the figure at full size"><picture><source media="(max-width: 1023px)" srcset="static/images/ablation-0-narrow.svg"><img src="static/images/ablation-0.svg" width="896" height="576" loading="lazy"
+             alt="Components, MATH-500 Pass@5: System 2 Distillation 50.8, shared biases 66.2, HyperThink without VQ 66.9, HyperThink 73.4."></picture></a>
+        <a href="static/images/ablation-1.svg" target="_blank" title="Open the figure at full size"><picture><source media="(max-width: 1023px)" srcset="static/images/ablation-1-narrow.svg"><img src="static/images/ablation-1.svg" width="896" height="576" loading="lazy"
+             alt="Adapted parameters, MATH-500 accuracy: Prompt Tuning 43.5, LoRA 46.9, biases (HyperThink) 48.8."></picture></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Codebook -->
+<section class="hero" id="codebook">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <h2 class="title is-3">Each VQ Code Covers Related Math Subjects</h2>
+      <p>Three representative VQ codes of HyperThink on <span class="nowrap">Qwen3-0.6B</span>. Each bar is the share of a <span class="nowrap">MATH-500</span> subject's problems assigned to that code, each title lists the most frequent words in the problems assigned to it, and highlighted bars mark the subjects the code mainly covers.</p>
+      <p>The codes are learned with no subject labels, yet each one groups related subjects.</p>
+      <figure class="figure wide-only"><a href="static/images/codebook-all.svg" target="_blank" title="Open the figure at full size"><img src="static/images/codebook-all.svg" width="1824" height="634" loading="lazy"
+             alt="Three codes. Code 1, top words log, express, equation: used mainly for Algebra, Intermediate Algebra, Prealgebra, and Number Theory. Code 2, top words bag, probability, area: used mainly for Counting and Probability. Code 3, top words pi, tan, points: used mainly for Precalculus."></a></figure>
+      <div class="figure-grid three narrow-only">
+        <a href="static/images/codebook-0.svg" target="_blank" title="Open the figure at full size"><img src="static/images/codebook-0.svg" width="730" height="614" loading="lazy"
+             alt="Code 1, top words log, express, equation: used mainly for Algebra, Intermediate Algebra, Prealgebra, and Number Theory."></a>
+        <a href="static/images/codebook-1.svg" target="_blank" title="Open the figure at full size"><img src="static/images/codebook-1.svg" width="730" height="614" loading="lazy"
+             alt="Code 2, top words bag, probability, area: used mainly for Counting and Probability."></a>
+        <a href="static/images/codebook-2.svg" target="_blank" title="Open the figure at full size"><img src="static/images/codebook-2.svg" width="730" height="614" loading="lazy"
+             alt="Code 3, top words pi, tan, points: used mainly for Precalculus."></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Example -->
+<section class="hero" id="example">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <h2 class="title is-3">Same Answer as Thinking Mode, Without the Trace</h2>
+      <p>A <span class="nowrap">MATH-500</span> problem from the paper's appendix (<span class="nowrap">Qwen3-0.6B</span>); bar length shows each response's length in words.</p>
+      <p>HyperThink is fast like Native <span class="nowrap">Non-Thinking</span>, but correct like Thinking Mode.</p>
+      <div class="example">
+        <p class="example-problem">For some real numbers <i>a</i> and <i>b</i>, the equation 8<i>x</i><sup>3</sup> + 4<i>ax</i><sup>2</sup> + 2<i>bx</i> + <i>a</i> = 0 has three distinct positive roots. If the sum of the <span class="nowrap">base-2</span> logarithms of the roots is 5, what is the value of <i>a</i>?</p>
+        <div class="example-row">
+          <div class="example-name">Thinking Mode</div>
+          <div class="example-bar"><span class="bar bar-think" style="width: 100%;"></span></div>
+          <div class="example-step">long trace, then product of roots <span class="nowrap">= −<i>a</i>/8 = 32</span></div>
+          <div class="example-answer">−256 <span class="ok" aria-label="correct">✓</span></div>
+        </div>
+        <div class="example-row">
+          <div class="example-name">Native <span class="nowrap">Non-Thinking</span></div>
+          <div class="example-bar"><span class="bar bar-native" style="width: 9.4%;"></span></div>
+          <div class="example-step">product of roots <span class="nowrap">= <i>a</i>/8 = 32</span></div>
+          <div class="example-answer">256 <span class="bad" aria-label="incorrect">✗</span></div>
+        </div>
+        <div class="example-row ours">
+          <div class="example-name">HyperThink</div>
+          <div class="example-bar"><span class="bar bar-ours" style="width: 10.0%;"></span></div>
+          <div class="example-step">product of roots <span class="nowrap">= −<i>a</i>/8 = 32</span></div>
+          <div class="example-answer">−256 <span class="ok" aria-label="correct">✓</span></div>
+        </div>
+      </div>
+      <details class="response">
+        <summary>Show HyperThink's full response</summary>
+        <div class="md"><p>To solve the problem, we begin by analyzing the given cubic equation:</p>
+<div class="math-display">\[8x^3 + 4ax^2 + 2bx + a = 0\]</div>
+<p>This equation is a cubic polynomial with real coefficients. The problem states that it has three <b>distinct positive roots</b>, and we are also given that the <b>sum of the base-2 logarithms of the roots is 5</b>. We are to find the value of \( a \).</p>
+<hr>
+<p class="md-head"><b>Step 1: Use Vieta's Formulas</b></p>
+<p>Since the polynomial has three distinct positive roots, let the roots be \( r_1, r_2, r_3 \). By Vieta's formulas, we can relate the coefficients of the polynomial to the roots:</p>
+<ul><li>The sum of the roots: \( r_1 + r_2 + r_3 = -\frac{4a}{8} = -\frac{a}{2} \)</li><li>The sum of the product of roots taken two at a time: \( r_1r_2 + r_1r_3 + r_2r_3 = \frac{2b}{8} = \frac{b}{4} \)</li><li>The product of the roots: \( r_1r_2r_3 = -\frac{a}{8} \)</li></ul>
+<p>We are also told that:</p>
+<div class="math-display">\[\log_2(r_1) + \log_2(r_2) + \log_2(r_3) = 5\]</div>
+<p>Using the logarithmic identity:</p>
+<div class="math-display">\[\log_2(r_1) + \log_2(r_2) + \log_2(r_3) = \log_2(r_1 r_2 r_3)\]</div>
+<p>So:</p>
+<div class="math-display">\[\log_2(r_1 r_2 r_3) = 5 \Rightarrow r_1 r_2 r_3 = 2^5 = 32\]</div>
+<hr>
+<p class="md-head"><b>Step 2: Use the Product of the Roots</b></p>
+<p>From Vieta's formula, we know:</p>
+<div class="math-display">\[r_1 r_2 r_3 = -\frac{a}{8} = 32\]</div>
+<p>So:</p>
+<div class="math-display">\[-\frac{a}{8} = 32 \Rightarrow a = -256\]</div>
+<hr>
+<p class="md-head"><b>Final Answer</b></p>
+<div class="math-display">\[\boxed{-256}\]</div></div>
+      </details>
+      <details class="response">
+        <summary>Show Native Non-Thinking's full response</summary>
+        <div class="md"><p>We are given the cubic equation:</p>
+<div class="math-display">\[8x^3 + 4ax^2 + 2bx + a = 0\]</div>
+<p>and the condition:</p>
+<div class="math-display">\[\text{Sum of the base-2 logarithms of the roots} = 5\]</div>
+<p>Let the roots be \( r_1, r_2, r_3 \), which are <b>distinct positive real numbers</b>.</p>
+<hr>
+<p class="md-head"><b>Step 1: Use the fact that the sum of the logarithms equals 5</b></p>
+<p>Recall that:</p>
+<div class="math-display">\[\log_2 r_1 + \log_2 r_2 + \log_2 r_3 = \log_2 (r_1 r_2 r_3)\]</div>
+<p>So:</p>
+<div class="math-display">\[\log_2 (r_1 r_2 r_3) = 5 \Rightarrow r_1 r_2 r_3 = 2^5 = 32\]</div>
+<hr>
+<p class="md-head"><b>Step 2: Use Vieta's formulas</b></p>
+<p>We are given:</p>
+<div class="math-display">\[8x^3 + 4ax^2 + 2bx + a = 0\]</div>
+<p>Let's write this in standard form:</p>
+<div class="math-display">\[8x^3 + 4ax^2 + 2bx + a = 0\]</div>
+<p>Let's factor this as a cubic:</p>
+<div class="math-display">\[(2x + 1)(4x^2 + px + q) = 0\]</div>
+<p>Expanding:</p>
+<div class="math-display">\[2x(4x^2 + px + q) + 1(4x^2 + px + q) = 0\]</div>
+<div class="math-display">\[8x^3 + 2px^2 + 2qx + 4x^2 + px + q = 0\]</div>
+<p>Now group like terms:</p>
+<ul><li>\( 8x^3 \)</li><li>\( (2p + 4)x^2 \)</li><li>\( (2q + p)x \)</li><li>Constant term \( q \)</li></ul>
+<p>So:</p>
+<ul><li>\( a = 2p + 4 \)</li><li>\( b = 2q + p \)</li><li>\( c = q \)</li></ul>
+<p>Also, from Vieta's formulas:</p>
+<ul><li>Sum of roots: \( r_1 + r_2 + r_3 = -\frac{4a}{8} = -\frac{a}{2} \)</li><li>Sum of products: \( r_1 r_2 + r_1 r_3 + r_2 r_3 = \frac{2b}{8} = \frac{b}{4} \)</li><li>Product of roots: \( r_1 r_2 r_3 = \frac{a}{8} \)</li></ul>
+<p>But earlier we found:</p>
+<ul><li>\( r_1 r_2 r_3 = 32 \)</li></ul>
+<p>So:</p>
+<div class="math-display">\[\frac{a}{8} = 32 \Rightarrow a = 256\]</div>
+<hr>
+<p class="md-head"><b>Final Answer:</b></p>
+<div class="math-display">\[\boxed{256}\]</div></div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- BibTeX -->
+<section class="hero" id="bibtex">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <div class="bibtex-head">
+        <h2 class="title is-3">BibTeX</h2>
+        <button class="button is-normal is-rounded is-dark copy-button" type="button" id="copy-bibtex">Copy</button>
+      </div>
+      <pre class="bibtex"><code id="bibtex-code"><span class="bl">@inproceedings{kim2026hyperthink,</span><span class="bl">  title={HyperThink: Text-to-Parameter Hypernetworks for Efficient Reasoning},</span><span class="bl">  author={Donggyun Kim and Jack Lu and Chanwoo Kim and Mengye Ren and Seunghoon Hong},</span><span class="bl">  booktitle={Third Conference on Language Modeling},</span><span class="bl">  year={2026}</span><span class="bl">}</span></code></pre>
+      <textarea id="bibtex-raw" hidden aria-hidden="true">@inproceedings{kim2026hyperthink,
+  title={HyperThink: Text-to-Parameter Hypernetworks for Efficient Reasoning},
+  author={Donggyun Kim and Jack Lu and Chanwoo Kim and Mengye Ren and Seunghoon Hong},
+  booktitle={Third Conference on Language Modeling},
+  year={2026}
+}</textarea>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content has-text-centered">
+          <p>Adapted from the <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank" rel="noopener">Academic Project Page Template</a> and <a href="https://nerfies.github.io" target="_blank" rel="noopener">Nerfies</a>, licensed under <a rel="license noopener" href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a>.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Render the math in the full responses with KaTeX, loaded only when a reader first opens one.
+  var katexLoaded = false;
+  function renderResponses() {
+    renderMathInElement(document.getElementById('example'), {delimiters: [
+      {left: '\\[', right: '\\]', display: true}, {left: '\\(', right: '\\)', display: false}]});
+  }
+  document.querySelectorAll('details.response').forEach(function (d) {
+    d.addEventListener('toggle', function () {
+      if (!d.open || katexLoaded) { return; }
+      katexLoaded = true;
+      var css = document.createElement('link');
+      css.rel = 'stylesheet';
+      css.href = 'https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css';
+      document.head.appendChild(css);
+      var js = document.createElement('script');
+      js.src = 'https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js';
+      js.onload = function () {
+        var auto = document.createElement('script');
+        auto.src = 'https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js';
+        auto.onload = renderResponses;
+        document.head.appendChild(auto);
+      };
+      document.head.appendChild(js);
+    });
+  });
+  document.getElementById('copy-bibtex').addEventListener('click', function () {
+    var button = this;
+    navigator.clipboard.writeText(document.getElementById('bibtex-raw').value).then(function () {
+      button.textContent = 'Copied';
+      setTimeout(function () { button.textContent = 'Copy'; }, 1500);
+    });
+  });
+</script>
 </body>
 </html>

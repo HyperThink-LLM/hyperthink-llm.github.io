@@ -1,0 +1,483 @@
+/* HyperThink project page. Base: the Academic Project Page Template styles Jack's past pages use (Google Sans for the
+   title and authors, Noto Sans for text); additions for figures, the legend, and the worked example. */
+body {
+  font-family: 'Noto Sans', sans-serif;
+  font-size: 1rem;
+  color: #363636;
+}
+
+.publication-title,
+.publication-authors,
+.publication-venue-line {
+  font-family: 'Google Sans', sans-serif;
+}
+
+.publication-title {
+  text-wrap: balance;
+  font-size: 2.6rem !important;
+}
+
+.hook {
+  margin-top: 1.75rem;
+  margin-bottom: 0 !important;
+}
+
+.teaser .figure {
+  margin-top: 1.5rem !important;
+}
+
+.teaser .tldr {
+  margin-top: 0.6rem;
+}
+
+.footer p {
+  text-wrap: balance;
+}
+
+.scroll-hint {
+  display: none;
+  font-size: 0.85rem;
+  color: #6b6b6b;
+  margin-top: 0.35rem;
+}
+
+.publication-authors a {
+  color: hsl(204, 86%, 40%) !important;
+}
+
+.publication-authors a:hover {
+  text-decoration: underline;
+}
+
+.author-block {
+  display: inline-block;
+}
+
+.affil-gap {
+  margin-left: 0.75rem;
+}
+
+.publication-venue-line {
+  font-weight: bold;
+  color: #4a4a4a;
+  margin-top: 0.25rem;
+}
+
+/* Stars stay at full size so the equal contribution is easy to see. */
+.publication-authors sup {
+  font-size: 0.7em;
+}
+
+.eql-cntrb {
+  font-size: 1rem;
+  font-weight: normal;
+  margin-left: 1.25em;
+}
+
+/* Equal-contribution star at full size (not bold, per Jack), so co-first authorship reads at a glance. */
+.eq-star {
+  font-size: 1.2em;
+  margin-left: 0.05em;
+}
+
+.publication-links {
+  margin-top: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.publication-links .button {
+  min-height: 44px;
+}
+
+.svg-icon {
+  width: 1em;
+  height: 1em;
+}
+
+.is-static-soon {
+  opacity: 0.75;
+  cursor: default;
+}
+
+.soon {
+  font-size: 0.7em;
+  margin-left: 0.4em;
+  padding: 0.05em 0.45em;
+  border: 1px solid currentColor;
+  border-radius: 1em;
+}
+
+.arch-img {
+  width: 900px;
+}
+
+/* Sections */
+.hero-body {
+  padding-top: 2.5rem;
+  padding-bottom: 0;
+}
+
+header .hero-body {
+  padding-bottom: 0.5rem;
+}
+
+.teaser .hero-body {
+  padding-top: 0;
+  padding-bottom: 2rem;
+}
+
+.teaser .figure {
+  margin-top: 0.5rem;
+}
+
+.teaser-img {
+  width: 640px;
+}
+
+
+
+h2.title.is-3 {
+  margin-bottom: 1rem;
+}
+
+.figure {
+  margin: 1.5rem auto 0;
+  text-align: center;
+}
+
+.figure img,
+.figure-grid img {
+  max-width: 100%;
+  height: auto;
+}
+
+.tldr {
+  max-width: 640px;
+  margin: 1.25rem auto 0;
+  font-size: 1.15rem;
+  line-height: 1.6;
+  text-align: left;
+}
+
+.hook {
+  font-family: 'Google Sans', sans-serif;
+  font-size: 1.6rem;
+  font-weight: 600;
+  text-align: center;
+  text-wrap: balance;
+  color: #222;
+  margin-bottom: 0.25rem;
+}
+
+#abstract .container {
+  padding: 0 1.5rem;
+}
+
+#abstract .columns {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+#abstract .column {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+/* Left-aligned (the column is centered), justified only where lines are long enough to avoid wide word gaps. */
+.abstract-text p {
+  text-align: left;
+}
+
+@media screen and (min-width: 1024px) {
+  .abstract-text p {
+    text-align: justify;
+    hyphens: auto;
+  }
+}
+
+/* Bulma zeroes paragraph margins outside .content; consecutive section paragraphs need a gap. */
+.hero-body > p + p {
+  margin-top: 0.8rem;
+}
+
+.figure-grid {
+  display: grid;
+  gap: 1rem;
+  margin: 1.5rem 0 0;
+  align-items: start;
+}
+
+.figure-grid.two {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.figure-grid.three {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+
+
+/* Legend for the latency panels */
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.4rem 1.25rem;
+  margin-top: 1.25rem;
+  font-size: 0.95rem;
+}
+
+.legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.mk {
+  height: 1em;
+  width: auto;
+}
+
+/* Worked example */
+.example {
+  border: 1.5px solid #2088CA;
+  border-radius: 10px;
+  padding: 1rem 1.25rem;
+  margin-top: 1.25rem;
+}
+
+.example-problem {
+  text-align: left;
+  margin-bottom: 1rem;
+}
+
+.md .md-head {
+  margin-top: 0.75rem;
+}
+
+.md p,
+.md ul {
+  margin: 0.4rem 0;
+}
+
+.md ul {
+  list-style: disc;
+  padding-left: 1.4rem;
+}
+
+.md hr {
+  margin: 0.75rem 0;
+}
+
+.md .math-display {
+  overflow-x: auto;
+  margin: 0.4rem 0;
+}
+
+.response .md {
+  padding: 0.5rem 1rem;
+  background: #fafafa;
+  border-radius: 6px;
+}
+
+.example-row {
+  display: grid;
+  grid-template-columns: 11.5rem minmax(0, 1fr) 5.5rem;
+  grid-template-areas: "name bar answer" ". step .";
+  column-gap: 0.75rem;
+  align-items: center;
+  padding: 0.5rem 0;
+  border-top: 1px solid #eee;
+}
+
+.example-name { grid-area: name; text-align: right; font-weight: 600; color: #4a5568; }
+.example-row.ours .example-name { color: #013B7E; font-weight: 700; }
+.example-bar { grid-area: bar; }
+.example-step { grid-area: step; font-size: 0.95rem; color: #4a4a4a; }
+.example-row.ours .example-step { color: #013B7E; font-weight: 600; }
+.example-answer { grid-area: answer; text-align: right; font-weight: 700; white-space: nowrap; }
+
+.bar {
+  display: block;
+  height: 0.9rem;
+  border-radius: 0.45rem;
+  min-width: 1.25rem;
+}
+
+.bar-think { background: #D4C29C; }
+.bar-native { background: #C0B2AD; }
+.bar-ours { background: #84AAC2; }
+
+.ok { color: #2E8B57; }
+.bad { color: #C0392B; }
+
+.response {
+  margin-top: 0.75rem;
+}
+
+.response summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: #1d5bbf;
+  display: list-item;
+  list-style-position: outside;
+  margin-left: 1.1rem;
+  padding: 0.6rem 0;
+}
+
+.nowrap {
+  white-space: nowrap;
+}
+
+.hero-body {
+  min-width: 0;
+}
+
+.response pre {
+  white-space: pre-wrap;
+  font-size: 0.85rem;
+  max-height: 28rem;
+  overflow-y: auto;
+}
+
+/* BibTeX */
+.bibtex-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.bibtex-head .title {
+  margin-bottom: 0 !important;
+}
+
+.copy-button {
+  min-height: 44px;
+}
+
+#bibtex pre {
+  margin-top: 1rem;
+  white-space: pre-wrap;
+  max-width: 100%;
+}
+
+#bibtex .bl {
+  display: block;
+  padding-left: 4ch;
+  text-indent: -4ch;
+}
+
+/* In Bulma's flex-column .hero, a container with auto side margins shrinks to its content's widest line (the BibTeX),
+   so pin it to the column width. */
+.hero > .container {
+  width: 100%;
+}
+
+code {
+  color: #000;
+  background-color: transparent;
+}
+
+.footer {
+  margin-top: 3rem;
+}
+
+/* Phones: one column, figures capped so their labels stay near body-text size. Below 1024 px the bar charts switch to
+   their "-narrow" versions (picture sources) and the codebook to its single panels. */
+@media screen and (max-width: 600px) {
+  .figure-grid.two,
+  .figure-grid.three {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .figure-grid img {
+    max-width: min(100%, 520px);
+    margin: 0 auto;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .hook {
+    font-size: 1.3rem;
+  }
+  .publication-title {
+    font-size: 1.75rem !important;
+  }
+  .example-row {
+    grid-template-columns: minmax(0, 1fr) 4.5rem;
+    grid-template-areas: "name answer" "bar bar" "step step";
+    row-gap: 0.35rem;
+  }
+  .example-name { text-align: left; }
+}
+
+.narrow-only {
+  display: none !important;
+}
+
+@media screen and (max-width: 1023px) {
+  .wide-only {
+    display: none !important;
+  }
+  .narrow-only {
+    display: grid !important;
+  }
+}
+
+/* Three-panel rows are three across only at desktop width (1024 px and up), where each panel gets 293 px; between 601
+   and 1023 px they go 2 + 1 with the last centered, so chart text stays at 13 px or more. */
+@media screen and (min-width: 601px) and (max-width: 1023px) {
+  .figure-grid.three {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .figure-grid.three > a:last-child {
+    grid-column: 1 / -1;
+    justify-self: center;
+    max-width: calc(50% - 0.5rem);
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .legend {
+    max-width: 32rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+/* Phones: compact buttons that pack 3 + 2, and the architecture figure at a legible fixed width that scrolls. */
+@media screen and (max-width: 600px) {
+  .publication-links {
+    gap: 0.4rem;
+  }
+  .publication-links .button {
+    font-size: 0.85rem;
+    padding-left: 0.85em;
+    padding-right: 0.85em;
+  }
+  .scroll-x {
+    overflow-x: auto;
+  }
+  .scroll-hint {
+    display: block;
+  }
+  .scroll-x .arch-img {
+    width: 640px;
+    max-width: none;
+  }
+}
+
+/* Links read as links without relying on color alone, at AA contrast. */
+.footer a,
+.content p a {
+  color: #1d5bbf;
+  text-decoration: underline;
+}
+
+.figure-grid a {
+  display: block;
+  text-align: center;
+}
